@@ -60,6 +60,13 @@ class TestRoom < Minitest::Test
     assert_equal(3,@room2.get_num_of_songs_available)
   end
 
+  def test_add_drink
+    @room2.add_drink(@drink1)
+    @room2.add_drink(@drink2)
+    @room2.add_drink(@drink3)
+    assert_equal(3,@room2.room_drink_selection.length)
+  end
+
   def test_cust_checks_song_list__fav_found
     @room2.add_song(@song1)
     @room2.add_song(@song2)

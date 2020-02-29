@@ -1,6 +1,6 @@
 class Room
 
-  attr_reader :room_name, :room_capacity, :room_entry_fee, :room_total_bar_takings, :room_total_entry_fees
+  attr_reader :room_name, :room_capacity, :room_entry_fee, :room_drink_selection, :room_total_bar_takings, :room_total_entry_fees
 
   def initialize(room_name, room_capacity, room_entry_fee)
     @room_name = room_name
@@ -23,6 +23,10 @@ class Room
 
   def add_song(song)
     @room_song_selection << song
+  end
+
+  def add_drink(drink)
+    @room_drink_selection << drink
   end
 
   def cust_checks_song_list(customer)
