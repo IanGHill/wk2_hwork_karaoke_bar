@@ -44,15 +44,15 @@ class Room
     end
   end
 
-  def collect_entry_fee(customer)
-    customer.cust_spends_cash(@room_entry_fee)
-    @room_total_entry_fees += @room_entry_fee
+  def charge_customer(customer, amount)
+    customer.cust_spends_cash(amount)
   end
 
   def check_guest_in(customer)
     if get_room_head_count < @room_capacity
       if customer.cust_funds_available >= @room_entry_fee
-        collect_entry_fee(customer)
+        charge_customer(customer, @room_entry_fee)
+        @room_total_entry_fees += @room_entry_fee
         @room_guest_list << customer
       else
         puts "Entry denied - insufficient funds!"
@@ -66,5 +66,13 @@ class Room
     @room_guest_list.delete(customer)
   end
 
-
+  def sell_drink_to_customer(customer, drink)
+    if customer.cust_funds_available >= drink.drink_price
+      charge_customer(customer, drink.drink_price)
+      @room_total_bar_takings += drink.drink_price
+      @room_drink_selection.delete(drink)
+    else
+      puts "Can/'t serve customer - insufficient funds!"
+    end
+  end
 end

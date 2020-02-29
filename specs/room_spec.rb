@@ -74,8 +74,8 @@ class TestRoom < Minitest::Test
     assert_equal("Customer grumbles", @room2.cust_checks_song_list(@cust1))
   end
 
-  def test_collect_entry_fee
-    @room1.collect_entry_fee(@cust1)
+  def test_charge_customer
+    @room1.charge_customer(@cust1, 10)
     assert_equal(40, @cust1.cust_funds_available)
   end
 
@@ -117,7 +117,15 @@ class TestRoom < Minitest::Test
   end
 
   def test_sell_drink_to_customer_enough_money
-    
+    @room1.sell_drink_to_customer(@cust1, @drink1)
+    assert_equal(45, @cust1.cust_funds_available)
+    assert_equal(5, @room1.room_total_bar_takings)
+  end
+
+  def test_sell_drink_to_customer_not_enough_money
+    @room1.sell_drink_to_customer(@cust4, @drink1)
+    assert_equal(0, @cust4.cust_funds_available)
+    assert_equal(0, @room1.room_total_bar_takings)
   end
 
 
